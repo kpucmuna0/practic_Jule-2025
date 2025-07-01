@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ресторан | HOTELYAR, Ярославль</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        
+          :root {
+            --primary: #003580;
+            --secondary: #feba02;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark);
+            line-height: 1.7;
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        
+        .site-brow {
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            height: 5px;
+            width: 100%;
+            box-shadow: var(--shadow);
+        }
+        
+        
+        .top-nav {
+            background-color: var(--primary);
+            padding: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            height: 60px;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 28px;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            transition: var(--transition);
+        }
+        
+        .nav-logo:hover {
+            color: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+   
+        .nav-menu li {
+            margin-left: 8px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            position: relative;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: var(--transition);
+            letter-spacing: 1px;
+            padding: 1px 1px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            position: relative;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--secondary);
+        }
+        
+        .nav-menu li::before {
+            content: none !important;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: var(--secondary);
+            transition: var(--transition);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .nav-menu a:hover::before {
+            width: 100%;
+        }
+        
+        
+        .nav-menu a.active {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .nav-menu a.active::before {
+            width: 100%;
+        }
+        
+        
+        .booking-btn {
+            background-color: var(--secondary);
+            color: var(--primary);
+            border-radius: 4px;
+            font-weight: 600;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+        
+        .booking-btn:hover {
+            background-color: #e6a800;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        
+        .hero {
+            height: 500px;
+            background: linear-gradient(rgba(0, 53, 128, 0.7), rgba(0, 53, 128, 0.5)), 
+                        url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .white-text {
+    background: transparent !important;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    padding: 0 !important;
+}
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            line-height: 1.5;
+            background: rgba(0, 53, 128, 0.7);
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        
+        .section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 50px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 40px;
+            font-size: 36px;
+            text-align: center;
+            padding-bottom: 20px;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        h3 {
+            color: var(--primary);
+            margin: 40px 0 25px;
+            font-size: 28px;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            height: 70%;
+            width: 5px;
+            background-color: var(--secondary);
+            border-radius: 3px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        
+        ul {
+            margin-bottom: 30px;
+            padding-left: 30px;
+            list-style-type: none;
+        }
+        
+        li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 30px;
+            color: var(--dark);
+        }
+        
+        li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--secondary);
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: rgba(254, 186, 2, 0.1);
+        }
+        
+        strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        
+        footer {
+            background: linear-gradient(135deg, var(--primary), #002a66);
+            color: white;
+            text-align: center;
+            padding: 50px 0 30px;
+            margin-top: 80px;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+        }
+        
+        footer p {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .footer-logo {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+            color: white;
+        }
+        
+        .social-links {
+            margin: 25px 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            margin: 0 15px;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .social-links a:hover {
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        
+        @media (max-width: 992px) {
+            .nav-container {
+                padding: 0 20px;
+            }
+            
+            .nav-menu li {
+                margin-left: 10px;
+            }
+            
+            .section {
+                padding: 30px;
+            }
+            
+            h2 {
+                font-size: 30px;
+            }
+            
+            h3 {
+                font-size: 24px;
+            }
+            
+            .hero h1 {
+                font-size: 42px;
+            }
+            
+            .hero p {
+                font-size: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+            }
+            
+            .nav-logo {
+                margin-bottom: 15px;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-menu li {
+                margin: 5px 10px;
+            }
+            
+            .hero {
+                height: 400px;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+                margin-bottom: 15px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+                padding: 8px 15px;
+            }
+            
+            .section {
+                margin: 20px auto;
+                padding: 25px;
+            }
+            
+            .booking-btn {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+        
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .feature-item {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-item h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-item h4 i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        
+        .advantages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .advantage {
+            flex: 1 1 200px;
+            background: linear-gradient(135deg, rgba(0, 53, 128, 0.1), rgba(254, 186, 2, 0.1));
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .advantage i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .advantage h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .advantage:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        
+        #reviews-section {
+            margin-top: 40px;
+        }
+
+        .reviews-container {
+            margin-bottom: 30px;
+        }
+
+        .review {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .review-author {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .review-date {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .review-rating {
+            display: flex;
+            margin-left: 15px;
+        }
+
+        .review-rating .star {
+            color: #ccc;
+            font-size: 20px;
+            margin-right: 3px;
+        }
+
+        .review-rating .star.filled {
+            color: var(--secondary);
+        }
+
+        .review-content {
+            line-height: 1.6;
+            color: var(--dark);
+        }
+
+        .login-prompt {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 16px;
+        }
+
+        .login-prompt a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        
+.user-menu {
+    position: relative;
+    padding-right: 15px;
+}
+
+.user-menu > a::after {
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-left: 8px;
+    font-size: 12px;
+    transition: var(--transition);
+}
+
+.user-menu:hover > a::after {
+    transform: rotate(180deg);
+}
+
+.user-menu .submenu {
+    display: block; 
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    z-index: 1000;
+    border-radius: 8px;
+    padding: 10px 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+}
+
+.user-menu:hover .submenu {
+    opacity: 1;
+    visibility: visible;
+}
+
+        .user-menu .submenu li {
+            margin: 0;
+            padding: 0;
+            display: block;
+        }
+
+        .user-menu .submenu a {
+            color: var(--dark) !important;
+            padding: 8px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            text-transform: none;
+            transition: var(--transition);
+        }
+.user-menu .submenu a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+        .user-menu .submenu a:hover {
+            background-color: rgba(0, 53, 128, 0.05);
+            color: var(--primary) !important;
+            padding-left: 25px;
+        }
+        
+        
+        .user-email {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--secondary) !important;
+            text-transform: none !important;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 200px;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .menu-link {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .menu-link:hover {
+            background-color: #002a66;
+            transform: translateY(-2px);
+        }
+        
+        .working-hours {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin: 20px 0;
+        }
+        
+        .working-hours p {
+            margin-bottom: 10px;
+        }
+        
+        .working-hours strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="site-brow"></div>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-logo">HOTELYAR</div>
+            <ul class="nav-menu">
+                <li><a href="about.html" class="nav-link">ОБ ОТЕЛЕ</a></li>
+                <li><a href="rooms.html" class="nav-link">НОМЕРА</a></li>
+                <li><a href="restaurant.html" class="nav-link active">РЕСТОРАН</a></li>
+                <li><a href="conference.html" class="nav-link">КОНФЕРЕНЦ-ЗАЛЫ</a></li>
+                <li><a href="gallery.html" class="nav-link">ФОТОГАЛЕРЕЯ</a></li>
+                <li><a href="contacts.html" class="nav-link">КОНТАКТЫ</a></li>
+                <li><a href="booking.html" class="nav-link booking-btn">БРОНИРОВАНИЕ</a></li>
+                <li class="user-menu">
+                    <a href="#" class="nav-link user-email" id="user-email"></a>
+                    <ul class="submenu">
+                        <li><a href="login.php"><i class="fas fa-user-circle"></i> Личный кабинет</a></li>
+
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+        
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Ресторан</h1>
+
+        </div>
+    </section>
+    
+    <section id="restaurant-section" class="section">
+        <h2>Ресторан</h2>
+        <p>Наш ресторан предлагает гостям изысканные блюда европейской и русской кухни, приготовленные из свежих местных продуктов. Уютная атмосфера и профессиональное обслуживание сделают ваше пребывание незабываемым.</p>
+        
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="\images\бара.jpg" alt="Интерьер ресторана">
+            </div>
+            <div class="gallery-item">
+                <img src="\images\блюда.jpg" alt="Блюда нашего ресторана">
+            </div>
+            <div class="gallery-item">
+                <img src="\images\бар.jpg" alt="Лобби-бар">
+            </div>
+        </div>
+        
+        <h3>Меню</h3>
+        <a href="\pdf\menu.pdf" target="_blank" class="menu-link">Меню Лобби-бара</a><br>
+        <a href="\pdf\bar-menu.pdf" target="_blank" class="menu-link">Барная карта</a>
+        
+        <h3>Часы работы</h3>
+        <div class="working-hours">
+            <p><strong>Завтрак:</strong> 06:30 - 10:30</p>
+            <p><strong>Обед:</strong> 12:00 - 16:00</p>
+            <p><strong>Ужин:</strong> 18:00 - 23:00</p>
+            <p><strong>Лобби-бар:</strong> круглосуточно</p>
+        </div>
+        
+        <p>Для бронирования столика или получения дополнительной информации, пожалуйста, свяжитесь с нами по телефону: <strong>+7 (473) 123-45-67</strong></p>
+    </section>
+    
+    <footer>
+        <div class="footer-logo">HOTELYAR</div>
+        <p>г. Ярославль, Тутаевское шоссе, д. 31А</p>
+        <p>Телефон: +7 (4852) 12-34-56</p>
+        <p>Email: info@hamster-hotel.ru</p>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-vk"></i></a>
+            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+        
+        <p>Модуль онлайн-бронирования</p>
+        
+        <div class="copyright">
+            © 2025 Отель HOTELYAR. Все права защищены.
+        </div>
+    </footer>
+        <script src="\js\auth.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', updateUserMenu);
+</script>
+</body>
+</html>

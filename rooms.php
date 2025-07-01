@@ -1,0 +1,1074 @@
+<?php
+require_once 'config.php';
+session_start();
+$userLoggedIn = isset($_SESSION['user_id']);
+?>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Номера | HOTELYAR, Ярославль</title>
+    <link rel="stylesheet" href="\css\rooms.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #003580;
+            --secondary: #feba02;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark);
+            line-height: 1.7;
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        
+        .site-brow {
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            height: 5px;
+            width: 100%;
+            box-shadow: var(--shadow);
+        }
+        
+        
+        .top-nav {
+            background-color: var(--primary);
+            padding: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            height: 60px;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            transition: var(--transition);
+        }
+        
+        .nav-logo:hover {
+            color: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+   
+        .nav-menu li {
+            margin-left: 1px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            position: relative;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: var(--transition);
+            letter-spacing: 1px;
+            padding: 1px 1px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            position: relative;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--secondary);
+        }
+        
+        .nav-menu li::before {
+            content: none !important;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: var(--secondary);
+            transition: var(--transition);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .nav-menu a:hover::before {
+            width: 100%;
+        }
+        
+        
+        .nav-menu a.active {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .nav-menu a.active::before {
+            width: 100%;
+        }
+        
+        
+        .booking-btn {
+            background-color: var(--secondary);
+            color: var(--primary);
+            border-radius: 4px;
+            font-weight: 600;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+        
+        .booking-btn:hover {
+            background-color: #e6a800;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        
+        .hero {
+            height: 500px;
+            background: linear-gradient(rgba(0, 53, 128, 0.7), rgba(0, 53, 128, 0.5)), 
+                        url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .white-text {
+            background: transparent !important;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            padding: 0 !important;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            animation: fadeInDown 1s ease;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            line-height: 1.5;
+            background: rgba(0, 53, 128, 0.7);
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+       
+        .section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 50px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 40px;
+            font-size: 36px;
+            text-align: center;
+            padding-bottom: 20px;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        h3 {
+            color: var(--primary);
+            margin: 40px 0 25px;
+            font-size: 28px;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            height: 70%;
+            width: 5px;
+            background-color: var(--secondary);
+            border-radius: 3px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        
+        ul {
+            margin-bottom: 30px;
+            padding-left: 30px;
+            list-style-type: none;
+        }
+        
+        li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 30px;
+            color: var(--dark);
+        }
+        
+        li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--secondary);
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: rgba(254, 186, 2, 0.1);
+        }
+        
+        strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        
+        footer {
+            background: linear-gradient(135deg, var(--primary), #002a66);
+            color: white;
+            text-align: center;
+            padding: 50px 0 30px;
+            margin-top: 80px;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+        }
+        
+        footer p {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .footer-logo {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+            color: white;
+        }
+        
+        .social-links {
+            margin: 25px 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            margin: 0 15px;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .social-links a:hover {
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        
+        @media (max-width: 992px) {
+            .nav-container {
+                padding: 0 20px;
+            }
+            
+            .nav-menu li {
+                margin-left: 10px;
+            }
+            
+            .section {
+                padding: 30px;
+            }
+            
+            h2 {
+                font-size: 30px;
+            }
+            
+            h3 {
+                font-size: 24px;
+            }
+            
+            .hero h1 {
+                font-size: 42px;
+            }
+            
+            .hero p {
+                font-size: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+            }
+            
+            .nav-logo {
+                margin-bottom: 15px;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-menu li {
+                margin: 5px 10px;
+            }
+            
+            .hero {
+                height: 400px;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+                margin-bottom: 15px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+                padding: 8px 15px;
+            }
+            
+            .section {
+                margin: 20px auto;
+                padding: 25px;
+            }
+            
+            .booking-btn {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+        
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .feature-item {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-item h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-item h4 i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        
+        .advantages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .advantage {
+            flex: 1 1 200px;
+            background: linear-gradient(135deg, rgba(0, 53, 128, 0.1), rgba(254, 186, 2, 0.1));
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .advantage i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .advantage h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .advantage:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        
+        #reviews-section {
+            margin-top: 40px;
+        }
+
+        .reviews-container {
+            margin-bottom: 30px;
+        }
+
+        .review {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .review-author {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .review-date {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .review-rating {
+            display: flex;
+            margin-left: 15px;
+        }
+
+        .review-rating .star {
+            color: #ccc;
+            font-size: 20px;
+            margin-right: 3px;
+        }
+
+        .review-rating .star.filled {
+            color: var(--secondary);
+        }
+
+        .review-content {
+            line-height: 1.6;
+            color: var(--dark);
+        }
+
+        .login-prompt {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 16px;
+        }
+
+        .login-prompt a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        
+        .user-menu {
+            position: relative;
+            padding-right: 15px;
+        }
+
+        .user-menu > a::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-left: 8px;
+            font-size: 12px;
+            transition: var(--transition);
+        }
+
+        .user-menu:hover > a::after {
+            transform: rotate(180deg);
+        }
+
+        .user-menu .submenu {
+            display: block;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-radius: 8px;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .user-menu:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .user-menu .submenu li {
+            margin: 0;
+            padding: 0;
+            display: block;
+        }
+
+        .user-menu .submenu a {
+            color: var(--dark) !important;
+            padding: 8px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            text-transform: none;
+            transition: var(--transition);
+        }
+        .user-menu .submenu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        .user-menu .submenu a:hover {
+            background-color: rgba(0, 53, 128, 0.05);
+            color: var(--primary) !important;
+            padding-left: 25px;
+        }
+        
+        
+        .user-email {
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--secondary) !important;
+            text-transform: none !important;
+        }
+
+        
+        .room-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .room-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .room-carousel {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
+        }
+        
+        .carousel-slide img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .carousel-prev {
+            left: 10px;
+        }
+        
+        .carousel-next {
+            right: 10px;
+        }
+        
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+        }
+        
+        .carousel-dot.active {
+            background: white;
+        }
+        
+        .room-info {
+            padding: 20px;
+        }
+        
+        .room-info h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .room-info p {
+            margin-bottom: 10px;
+            color: var(--gray);
+        }
+        
+        .price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 15px 0;
+        }
+        
+        .price small {
+            font-size: 14px;
+            font-weight: normal;
+            color: var(--gray);
+        }
+    </style>
+</head>
+<body>
+    <div class="site-brow"></div>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-logo">HOTELYAR</div>
+            <ul class="nav-menu">
+                <li><a href="about.php" class="nav-link">ОБ ОТЕЛЕ</a></li>
+                <li><a href="rooms.php" class="nav-link">НОМЕРА</a></li>
+                <li><a href="restaurant.php" class="nav-link">РЕСТОРАН</a></li>
+                <li><a href="conference.php" class="nav-link">КОНФЕРЕНЦ-ЗАЛЫ</a></li>
+                <li><a href="gallery.php" class="nav-link">ФОТОГАЛЕРЕЯ</a></li>
+                <li><a href="contacts.php" class="nav-link">КОНТАКТЫ</a></li>
+                <li><a href="booking.php" class="nav-link booking-btn">БРОНИРОВАНИЕ</a></li>
+                <?php if ($userLoggedIn): ?>
+                <li class="user-menu">
+                        <a href="#" class="nav-link"><?= htmlspecialchars($_SESSION['email']) ?></a>
+                        <ul class="submenu">
+                            <li><a href="account.php"><i class="fas fa-user-circle"></i> Личный кабинет</a></li>
+                            <li><a href="logout.php">Выйти</a>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </nav>
+        
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Наши номера</h1>
+        </div>
+    </section>
+    
+    <section id="rooms-section" class="section">
+        <h2>Номера</h2>
+        
+        <div class="room-list">
+            
+            <div class="room-card">
+                <div class="room-carousel">
+                    <div class="carousel-slides">
+                        <div class="carousel-slide">
+                            <img src="\images\комната1.jpg" alt="Номер с кроватью Queen-Size - фото 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="\images\комната11.jpg" alt="Номер с кроватью Queen-Size - фото 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="\images\окно1.jpg" alt="Номер с кроватью Queen-Size - фото 3">
+                        </div>
+                    </div>
+                    <button class="carousel-btn carousel-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn carousel-next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots">
+                        <span class="carousel-dot active"></span>
+                        <span class="carousel-dot"></span>
+                        <span class="carousel-dot"></span>
+                    </div>
+                </div>
+                <div class="room-info">
+                    <h3>НОМЕР С КРОВАТЬЮ РАЗМЕРА "QUEEN-SIZE"</h3>
+                    <p>до 2 мест<br>25 м²<br>1 комн.</p>
+                    <div class="price">от 6 000 ₽<br><small>за 1 ночь.</small></div>
+                </div>
+            </div>
+            
+            
+            <div class="room-card">
+                <div class="room-carousel">
+                    <div class="carousel-slides">
+                        <div class="carousel-slide">
+                            <img src="\images\комната2.jpg" alt="Стандартный двухместный номер - фото 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="\images\душ2.jpg" alt="Стандартный двухместный номер - фото 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="\images\окно2.jpg" alt="Стандартный двухместный номер - фото 3">
+                        </div>
+                    </div>
+                    <button class="carousel-btn carousel-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn carousel-next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots">
+                        <span class="carousel-dot active"></span>
+                        <span class="carousel-dot"></span>
+                        <span class="carousel-dot"></span>
+                    </div>
+                </div>
+                <div class="room-info">
+                    <h3>СТАНДАРТНЫЙ ДВУХМЕСТНЫЙ НОМЕР</h3>
+                    <p>до 2 мест<br>30 м²<br>1 комн.</p>
+                    <div class="price">от 6 500 ₽<br><small>за 1 ночь.</small></div>
+                </div>
+            </div>
+            
+            
+            <div class="room-card">
+                <div class="room-carousel">
+                    <div class="carousel-slides">
+                        <div class="carousel-slide">
+                            <img src="\images\комната3.jpg" alt="Номер с кроватью Queen-Size и диваном - фото 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="\images\душ3.jpg" alt="Номер с кроватью Queen-Size и диваном - фото 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="\images\окно3.jpg" alt="Номер с кроватью Queen-Size и диваном - фото 3">
+                        </div>
+                    </div>
+                    <button class="carousel-btn carousel-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn carousel-next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots">
+                        <span class="carousel-dot active"></span>
+                        <span class="carousel-dot"></span>
+                        <span class="carousel-dot"></span>
+                    </div>
+                </div>
+                <div class="room-info">
+                    <h3>НОМЕР С КРОВАТЬЮ "QUEEN-SIZE" И ДИВАН-КРОВАТЬЮ</h3>
+                    <p>до 3 мест<br>28 м²<br>1 комн.</p>
+                    <div class="price">от 7 000 ₽<br><small>за 1 ночь.</small></div>
+                </div>
+            </div>
+            
+            
+            <div class="room-card">
+                <div class="room-carousel">
+                    <div class="carousel-slides">
+                        <div class="carousel-slide">
+                            <img src="\images\комната4.jpg" alt="Номер-студио - фото 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="\images\душ4.jpg" alt="Номер-студио - фото 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="\images\окно4.jpg" alt="Номер-студио - фото 3">
+                        </div>
+                    </div>
+                    <button class="carousel-btn carousel-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn carousel-next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="carousel-dots">
+                        <span class="carousel-dot active"></span>
+                        <span class="carousel-dot"></span>
+                        <span class="carousel-dot"></span>
+                    </div>
+                </div>
+                <div class="room-info">
+                    <h3>НОМЕР-СТУДИО</h3>
+                    <p>до 4 мест<br>32 м²</p>
+                    <div class="price">от 7 500 ₽<br><small>за 1 ночь.</small></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-logo">HOTELYAR</div>
+        <p>г. Ярославль, ул. Колесова д.999</p>
+        <p>Телефон: +7 (4852) 12-34-56</p>
+        <p>Email: info@hamster-hotel.ru</p>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-vk"></i></a>
+            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+        
+        <p>Модуль онлайн-бронирования</p>
+        
+        <div class="copyright">
+            © 2025 Отель HOTELYAR. Все права защищены.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const carousels = document.querySelectorAll('.room-carousel');
+            
+            carousels.forEach(carousel => {
+                const slides = carousel.querySelector('.carousel-slides');
+                const slideItems = carousel.querySelectorAll('.carousel-slide');
+                const prevBtn = carousel.querySelector('.carousel-prev');
+                const nextBtn = carousel.querySelector('.carousel-next');
+                const dots = carousel.querySelectorAll('.carousel-dot');
+                
+                let currentIndex = 0;
+                const totalSlides = slideItems.length;
+                
+                // Функция для обновления карусели
+                function updateCarousel() {
+                    slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+                    
+                    // Обновляем активную точку
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentIndex);
+                    });
+                }
+                
+                // Кнопка "назад"
+                prevBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalSlides - 1;
+                    updateCarousel();
+                });
+                
+                // Кнопка "вперед"
+                nextBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0;
+                    updateCarousel();
+                });
+                
+                // Клик по точкам
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        currentIndex = index;
+                        updateCarousel();
+                    });
+                });
+                
+                
+                let interval = setInterval(() => {
+                    currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0;
+                    updateCarousel();
+                }, 5000);
+                
+                
+                carousel.addEventListener('mouseenter', () => {
+                    clearInterval(interval);
+                });
+                
+                carousel.addEventListener('mouseleave', () => {
+                    interval = setInterval(() => {
+                        currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0;
+                        updateCarousel();
+                    }, 5000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
